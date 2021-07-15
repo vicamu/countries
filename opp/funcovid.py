@@ -37,26 +37,24 @@ def get_worst_muns(data):
         next 
     return result
 
-def get_sum_by_date(data):
-    count = 0
+# Función que crea un diccionario cuyas claves son las fechas y los valores los casos totales por cada fecha. La función va creando las claves y si no existen maneja el error y las crea.
+
+def create_y(data):
     result = {}
-
-    fecha = "2020/03/02"
     for mun in data:
-        control = True
-        if "2020/03/02" == fecha:
+        date = mun["fecha_informe"].split(" ")[0]
+        try:
+            result[date]
             try:
-                count += mun["casos_confirmados_totales"]
+                result[date] += mun["casos_confirmados_totales"]
             except KeyError:
-                control = False
-        elif control:
-            result[fecha] = count
-            count = 0
-            fecha = "2020/03/02"
-            control = True
-    for k,v in result.items():
-        print(f"{k}: {v}")
-
-    print(len(result))
+                continue                
+        except KeyError:
+            try:
+                result[date] = 0
+                result[date] += mun["casos_confirmados_totales"]
+            except KeyError:
+                continue
+    return result
 
     

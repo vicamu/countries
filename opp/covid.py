@@ -2,6 +2,8 @@ import requests as req
 import json
 import funcovid
 import time
+from std import Estadistica
+
 
 
 # Traigo la información de internet y escribo el json
@@ -43,13 +45,27 @@ mun1jul_ok = funcovid.get_key_total_cases(mun1jul)
 worst_mun = funcovid.get_worst_muns(mun1jul_ok)
 funcovid.print_pretty((worst_mun[0:rank]))
 
-# Crear una lista con la sumatoria de los casos confirmados totales por día
+# Crear una lista con la sumatoria de los casos confirmados totales por día. Al final creamos un diccionario
 
-start = time.perf_counter()
-funcovid.get_sum_by_date(data)
-finish = time.perf_counter()
 
-print(finish)
+Y = funcovid.create_y(data)
+Y = dict(sorted(Y.items(), key=lambda tupla: tupla[0]))
+dates = list(Y.keys())
+Y = list(Y.keys())
+X = [num for num in range(1, len(Y)+ 1)]
+
+covid_data = Estadistica(X,Y)
+print(covid_data.rxy)
+
+    
+
+
+
+
+
+
+
+
 
 
 
