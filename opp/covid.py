@@ -1,9 +1,12 @@
-import requests as req
+# import requests as req 
 import json
-import funcovid
+import funcovid  
 import time
+import os
 from std import Estadistica
+import matplotlib.pyplot as plt
 
+cwd = os.path.dirname(__file__)
 
 
 # Traigo la información de internet y escribo el json
@@ -14,7 +17,7 @@ from std import Estadistica
 
 # Leo el json que he escrito bajo el nombre de covid_data.json
 
-with open("./opp/covid_data.json", "r", encoding="utf8") as file:
+with open(f"{cwd}/covid_data.json", "r", encoding="utf8") as file:
     data = json.load(file)["data"]
 
 # Cantidad total de municipios. Creo una lista con los municipios a una fecha dada. Quito la hora de la fecha con [0:10] para que no me afecte la hora
@@ -51,12 +54,38 @@ funcovid.print_pretty((worst_mun[0:rank]))
 Y = funcovid.create_y(data)
 Y = dict(sorted(Y.items(), key=lambda tupla: tupla[0]))
 dates = list(Y.keys())
-Y = list(Y.keys())
+Y = list(Y.values())
 X = [num for num in range(1, len(Y)+ 1)]
 
 covid_data = Estadistica(X,Y)
+
 print(covid_data.rxy)
 
+# plt.plot(X,Y)
+# plt.ylabel("Confirmados")
+# plt.xlabel("Días")
+# plt.show()
+
+Y_b65 = Y[0:66]
+X_b65 = [num for num in range(67, len(Y_b65)+ 1)]
+
+
+Y_a65 = Y[66:]
+X_a65 = [num for num in range(67, len(Y)+ 1)]
+plt.plot(X_a65,Y_a65)
+plt.ylabel("Confirmados")
+plt.xlabel("Días")
+plt.show()
+
+after65 = Estadistica(X_a65,Y_a65)
+print(after65.rxy)
+print(after65.prediction(137))
+
+
+# plt.plot(X,Y)
+# plt.ylabel("Confirmados")
+# plt.xlabel("Días")
+# plt.show()
     
 
 
