@@ -6,7 +6,6 @@ class Estadistica:
         self.x = x if type(x) == list else []
         self.y = y if type(y) == list else []
 
-    # Propiedad: Obtener n
 
     @property
     def n(self):
@@ -59,13 +58,4 @@ class Estadistica:
 
     
 
-test = Estadistica([1,2,3],[4,5,6])
-print(test.x_mean)
 
-print(test.y_var)
-print(test.x_var)
-print(test.cov)
-print(test.rxy)
-print(test.B)
-print(test.B0)
-print(test.prediction(5))
